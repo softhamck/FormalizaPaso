@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block titulo %}Pasos{% endblock %}
+{% block encabezado %}Pasos de formalización{% endblock %}
+
+{% block contenido %}
+<div class="panel overflow-x-auto">
+    <table class="tabla">
+        <thead><tr><th>Paso</th><th>Trámite</th><th>Ruta y negocio</th><th>Estado</th></tr></thead>
+        <tbody>
+            {% for paso in pasos %}
+                <tr>
+                    <td><a class="enlace" href="{% url 'detalle_paso' paso.pk %}">Paso {{ paso.orden }}</a></td>
+                    <td><a class="enlace" href="{% url 'detalle_tramite' paso.tramite.pk %}">{{ paso.tramite.nombre }}</a></td>
+                    <td>
+                        <a class="enlace" href="{% url 'detalle_ruta' paso.ruta.pk %}">
+                            Ruta {{ paso.ruta.pk }} · {{ paso.ruta.negocio.nombre }}
+                        </a>
+                    </td>
+                    <td>{{ paso.get_estado_display }}</td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="4" class="vacio">No hay pasos disponibles para esta cuenta.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

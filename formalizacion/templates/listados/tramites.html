@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block titulo %}Trámites{% endblock %}
+{% block encabezado %}Catálogo de trámites{% endblock %}
+
+{% block contenido %}
+<div class="panel overflow-x-auto">
+    <table class="tabla">
+        <thead>
+            <tr><th>Trámite</th><th>Entidad responsable</th><th>Costo estimado</th></tr>
+        </thead>
+        <tbody>
+            {% for tramite in tramites %}
+                <tr>
+                    <td>
+                        <a class="enlace" href="{% url 'detalle_tramite' tramite.pk %}">
+                            {{ tramite.nombre }}
+                        </a>
+                    </td>
+                    <td>{{ tramite.entidad_responsable }}</td>
+                    <td>${{ tramite.costo_estimado|floatformat:2 }}</td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="3" class="vacio">Todavía no hay trámites registrados.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

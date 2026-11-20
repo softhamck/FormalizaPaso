@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block titulo %}{{ tramite.nombre }}{% endblock %}
+{% block encabezado %}{{ tramite.nombre }}{% endblock %}
+
+{% block contenido %}
+<dl class="panel ficha">
+    <div class="sm:col-span-2">
+        <dt>Descripción</dt><dd>{{ tramite.descripcion|linebreaksbr }}</dd>
+    </div>
+    <div class="sm:col-span-2">
+        <dt>Requisitos</dt>
+        <dd>{{ tramite.requisitos|default:"Sin requisitos registrados."|linebreaksbr }}</dd>
+    </div>
+    <div><dt>Entidad responsable</dt><dd>{{ tramite.entidad_responsable }}</dd></div>
+    <div><dt>Costo estimado</dt><dd>${{ tramite.costo_estimado|floatformat:2 }}</dd></div>
+    <div>
+        <dt>Enlace oficial</dt>
+        <dd>
+            {% if tramite.enlace_oficial %}
+                <a class="enlace" href="{{ tramite.enlace_oficial }}">Consultar sitio oficial</a>
+            {% else %}
+                Sin enlace registrado.
+            {% endif %}
+        </dd>
+    </div>
+</dl>
+<a class="volver" href="{% url 'lista_tramites' %}">← Volver a trámites</a>
+{% endblock %}

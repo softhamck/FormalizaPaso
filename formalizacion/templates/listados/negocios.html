@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block titulo %}Negocios{% endblock %}
+{% block encabezado %}Negocios{% endblock %}
+
+{% block contenido %}
+<div class="panel overflow-x-auto">
+    <table class="tabla">
+        <thead>
+            <tr><th>Negocio</th><th>Propietario</th><th>Actividad</th><th>Municipio</th><th>Estado</th></tr>
+        </thead>
+        <tbody>
+            {% for negocio in negocios %}
+                <tr>
+                    <td>
+                        <a class="enlace" href="{% url 'detalle_negocio' negocio.pk %}">
+                            {{ negocio.nombre }}
+                        </a>
+                    </td>
+                    <td>{{ negocio.usuario.get_full_name|default:negocio.usuario.username }}</td>
+                    <td>{{ negocio.get_actividad_economica_display }}</td>
+                    <td>{{ negocio.municipio }}</td>
+                    <td>{{ negocio.get_estado_formalizacion_display }}</td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="5" class="vacio">No hay negocios disponibles para esta cuenta.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

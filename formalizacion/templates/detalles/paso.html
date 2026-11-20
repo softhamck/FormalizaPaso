@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block titulo %}Paso {{ paso.orden }}{% endblock %}
+{% block encabezado %}Paso {{ paso.orden }} · {{ paso.tramite.nombre }}{% endblock %}
+
+{% block contenido %}
+<dl class="panel ficha">
+    <div>
+        <dt>Trámite</dt>
+        <dd><a class="enlace" href="{% url 'detalle_tramite' paso.tramite.pk %}">{{ paso.tramite.nombre }}</a></dd>
+    </div>
+    <div>
+        <dt>Ruta de formalización</dt>
+        <dd>
+            <a class="enlace" href="{% url 'detalle_ruta' paso.ruta.pk %}">
+                Ruta {{ paso.ruta.pk }} · {{ paso.ruta.negocio.nombre }}
+            </a>
+        </dd>
+    </div>
+    <div><dt>Orden del paso</dt><dd>{{ paso.orden }}</dd></div>
+    <div><dt>Estado</dt><dd>{{ paso.get_estado_display }}</dd></div>
+    <div><dt>Fecha límite</dt><dd>{{ paso.fecha_limite|date:"d/m/Y"|default:"Sin fecha registrada" }}</dd></div>
+    <div class="sm:col-span-2">
+        <dt>Observaciones</dt>
+        <dd>{{ paso.observaciones|default:"Sin observaciones registradas."|linebreaksbr }}</dd>
+    </div>
+</dl>
+<a class="volver" href="{% url 'lista_pasos' %}">← Volver a pasos</a>
+{% endblock %}

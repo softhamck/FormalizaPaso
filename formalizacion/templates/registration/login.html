@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block titulo %}Iniciar sesión{% endblock %}
+{% block encabezado %}Iniciar sesión{% endblock %}
+
+{% block contenido %}
+<form method="post" class="panel max-w-md space-y-5 p-6">
+    {% csrf_token %}
+
+    {% if form.errors %}
+        <p role="alert" class="rounded-lg bg-purple-100 p-3 text-purple-950">
+            Revisa el nombre de usuario y la contraseña.
+        </p>
+    {% endif %}
+
+    <div>
+        <label for="id_username" class="mb-1 block font-semibold">Usuario</label>
+        <input id="id_username" name="username" type="text" autocomplete="username"
+               value="{{ form.username.value|default_if_none:'' }}" required
+               class="w-full rounded-lg border border-purple-300 px-3 py-2">
+    </div>
+
+    <div>
+        <label for="id_password" class="mb-1 block font-semibold">Contraseña</label>
+        <input id="id_password" name="password" type="password"
+               autocomplete="current-password" required
+               class="w-full rounded-lg border border-purple-300 px-3 py-2">
+    </div>
+
+    {% if next %}
+        <input type="hidden" name="next" value="{{ next }}">
+    {% endif %}
+
+    <button class="w-full cursor-pointer rounded-lg bg-purple-800 px-4 py-2 font-semibold text-white hover:bg-purple-900">
+        Ingresar
+    </button>
+</form>
+{% endblock %}

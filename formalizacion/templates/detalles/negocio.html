@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block titulo %}{{ negocio.nombre }}{% endblock %}
+{% block encabezado %}{{ negocio.nombre }}{% endblock %}
+
+{% block contenido %}
+<dl class="panel ficha">
+    <div>
+        <dt>Propietario</dt>
+        <dd>
+            {% if request.user.is_staff %}
+                <a class="enlace" href="{% url 'detalle_usuario' negocio.usuario.pk %}">
+                    {{ negocio.usuario.get_full_name|default:negocio.usuario.username }}
+                </a>
+            {% else %}
+                {{ negocio.usuario.get_full_name|default:negocio.usuario.username }}
+            {% endif %}
+        </dd>
+    </div>
+    <div><dt>Actividad económica</dt><dd>{{ negocio.get_actividad_economica_display }}</dd></div>
+    <div><dt>Municipio</dt><dd>{{ negocio.municipio }}</dd></div>
+    <div><dt>Número de trabajadores</dt><dd>{{ negocio.numero_trabajadores }}</dd></div>
+    <div><dt>Estado de formalización</dt><dd>{{ negocio.get_estado_formalizacion_display }}</dd></div>
+</dl>
+
+<h2 class="subtitulo">Rutas de este negocio</h2>
+<ul class="panel divide-y divide-purple-100">
+    {% for ruta in rutas %}
+        <li class="p-4">
+            <a class="enlace" href="{% url 'detalle_ruta' ruta.pk %}">Ruta {{ ruta.pk }}</a>
+            · {{ ruta.fecha_creacion|date:"d/m/Y" }} · {{ ruta.porcentaje_avance }} % de avance
+        </li>
+    {% empty %}
+        <li class="vacio">Este negocio todavía no tiene rutas registradas.</li>
+    {% endfor %}
+</ul>
+<a class="volver" href="{% url 'lista_negocios' %}">← Volver a negocios</a>
+{% endblock %}

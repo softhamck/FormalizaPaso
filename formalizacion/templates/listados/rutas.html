@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block titulo %}Rutas{% endblock %}
+{% block encabezado %}Rutas de formalización{% endblock %}
+
+{% block contenido %}
+<div class="panel overflow-x-auto">
+    <table class="tabla">
+        <thead>
+            <tr><th>Ruta</th><th>Negocio</th><th>Creación</th><th>Avance</th><th>Estado</th></tr>
+        </thead>
+        <tbody>
+            {% for ruta in rutas %}
+                <tr>
+                    <td><a class="enlace" href="{% url 'detalle_ruta' ruta.pk %}">Ruta {{ ruta.pk }}</a></td>
+                    <td><a class="enlace" href="{% url 'detalle_negocio' ruta.negocio.pk %}">{{ ruta.negocio.nombre }}</a></td>
+                    <td>{{ ruta.fecha_creacion|date:"d/m/Y" }}</td>
+                    <td>{{ ruta.porcentaje_avance }} %</td>
+                    <td>{{ ruta.activa|yesno:"Activa,Inactiva" }}</td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="5" class="vacio">No hay rutas disponibles para esta cuenta.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block titulo %}FormalizaPaso{% endblock %} · FormalizaPaso</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <style type="text/tailwindcss">
+        @layer components {
+            .panel {
+                @apply overflow-hidden rounded-2xl border border-purple-200 bg-white shadow-sm;
+            }
+            .tabla {
+                @apply w-full text-left text-sm;
+            }
+            .tabla th {
+                @apply bg-purple-100 px-4 py-3 font-semibold text-purple-950;
+            }
+            .tabla td {
+                @apply border-t border-purple-100 px-4 py-3 align-top;
+            }
+            .enlace {
+                @apply font-semibold text-purple-800 underline decoration-purple-300
+                       underline-offset-4 hover:text-purple-950;
+            }
+            .ficha {
+                @apply grid gap-x-8 gap-y-5 p-6 sm:grid-cols-2;
+            }
+            .ficha dt {
+                @apply mb-1 text-sm font-semibold text-purple-800;
+            }
+            .ficha dd {
+                @apply break-words text-slate-800;
+            }
+            .subtitulo {
+                @apply mb-3 mt-8 text-xl font-bold text-purple-950;
+            }
+            .vacio {
+                @apply p-4 text-slate-600;
+            }
+            .volver {
+                @apply mt-6 inline-block font-semibold text-purple-800 underline;
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-purple-50 text-slate-900">
+    <header class="bg-purple-950 text-white">
+        <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-5 py-5">
+            <a href="{% url 'inicio' %}" class="text-2xl font-bold">FormalizaPaso</a>
+
+            <nav aria-label="Menú principal" class="flex flex-wrap items-center gap-4 text-sm">
+                <a href="{% url 'lista_tramites' %}">Trámites</a>
+
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'lista_negocios' %}">Negocios</a>
+                    <a href="{% url 'lista_rutas' %}">Rutas</a>
+                    <a href="{% url 'lista_pasos' %}">Pasos</a>
+
+                    {% if request.user.is_staff %}
+                        <a href="{% url 'lista_usuarios' %}">Usuarios</a>
+                    {% endif %}
+
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button class="cursor-pointer rounded-lg border border-purple-400 px-3 py-1">
+                            Cerrar sesión
+                        </button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="rounded-lg bg-purple-700 px-3 py-2">
+                        Iniciar sesión
+                    </a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <main class="mx-auto max-w-6xl px-5 py-8">
+        <h1 class="mb-6 text-3xl font-bold text-purple-950">
+            {% block encabezado %}{% endblock %}
+        </h1>
+        {% block contenido %}{% endblock %}
+    </main>
+</body>
+</html>
