@@ -1,4 +1,4 @@
-# FormalizaApp
+# FormalizaPaso
 
 Aplicación web desarrollada con Django para orientar a pequeños negocios y emprendimientos durante su proceso de formalización.
 
